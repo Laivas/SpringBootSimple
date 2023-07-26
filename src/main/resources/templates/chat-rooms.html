@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+<head>
+<title>Spring Security Example</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+<style>
+
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+td, th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+
+footer {
+/*     position: fixed; */
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.page-link {
+  border: none;
+  outline: none;
+  padding: 10px 16px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Style the active class, and buttons on mouse-over */
+.active, .page-link:hover {
+  background-color: #0066ff;
+  color: white;
+  padding: 10px 16px;
+  
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+	<header class="d-flex flex-wrap justify-content-md-between py-3 mb-4 border-bottom">
+			
+			<div class="d-flex justify-content-start" >
+			
+			<a th:href="@{/friendList}" class="btn btn-primary mx-2" th:method="get">Home</a>
+			
+			<a th:href="@{/chatRooms}" class="btn btn-primary mx-2">Chat Rooms</a>
+			
+			<a th:href="@{/photos}" class="btn btn-primary mx-2" th:method="get">Photos</a>
+					
+			<a type="submit" th:href="@{/user-list}" class="btn btn-outline-primary mx-2">User list</a>
+			
+			</div>
+			
+			<div class="d-flex flex-wrap justify-content-md-end ">
+			
+			<div class="d-flex justify-content-start" >
+			
+				<div class="dropdown mx-2">
+			  	<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+			   		Settings
+			  	</a>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+			    		<li><a class="dropdown-item" th:href="@{/settings}">Settings</a></li>
+			  		</ul>
+				</div>
+			
+ 				<a type="button" class="btn btn-outline-primary me-2" th:href="@{/logout}" >Logout</a>
+ 		
+ 				</div> 
+			</div>
+			
+		</header>
+
+</div>
+	
+<!-- 	<div class="container" >
+	
+	<form action="#" class="form-control py-4 px-3 " th:method="get" th:action="@{/chat}" >
+	
+	<div class="d-grid pt-3 gap-2 col-2">
+	
+	<input type="text" name="chatRoomName" th:value="${chatRoomName}" class="form-control" id="chatRoomName" placeholder="ChatRoom Name/Topic"/>
+	
+	<input type="submit" class="form control btn btn-primary col-10" value="Create new chat"> 
+	
+	</div>
+	
+	</form>
+	
+	</div> -->
+	<div class="container">
+	<h5>Available Chats</h5>
+	</div>
+	
+<div>
+  <div>
+	<div class="container">
+<!--  		<div th:switch="${chatroom}">
+			<h2 th:case="null">No chats yet!</h2>
+			<div th:case="*">
+				<h2>Chat rooms</h2>  -->
+				<table class="table table-striped table-responsive-md">
+					<thead>
+						<tr>
+							<th class="col-9">Name</th>
+							<th class="text-end">Users</th>
+							<th class="text-end">Open</th>
+							<th class="text-end">Delete</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="room: ${chatrooms}">
+						
+							<td th:text="${room.topic}"></td>
+							
+							<td th:text="${chatRoomService.getUsersInChatRoom(room.id)}">
+							</td>
+							
+							<td class="text-end"><a th:href="@{/chat/{id}(id=${room.id})}"
+								class="btn btn-secondary">Open</a></td>
+
+							<td class="text-end"><a th:href="@{/deleteChat/{id}(id=${room.id})}"
+								class="btn btn-danger btn-delete " data-bs-toggle="modal"
+								th:data-bs-target="|#exampleModal${room.id}|">Delete</a>
+		
+								
+							<div class="modal fade" id="exampleModal" role="dialog"
+									th:attrappend="id=${room.id}" tabindex="-1"
+									aria-labelledby="exampleModalLabel" aria-hidden="true">
+									
+									<div class="modal-dialog">
+									
+										<div class="modal-content">
+										
+											<div class="modal-header">
+											
+												<h5 class="modal-title" id="exampleModalLabel">Modal
+													title</h5>
+													
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											
+											
+ 											<div class="modal-body">
+												<p>Delete <span th:text="${room.id}"></span> ?</p>
+											</div> 
+											
+											
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-bs-dismiss="modal">Close</button>
+												<a type="button" class="btn btn-primary"
+													th:href="@{/deleteChat/{id}(id=${room.id})}">Delete</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</td>
+							
+							
+						</tr>
+					</tbody>
+				</table>
+			</div>
+<!-- 			<div>
+	 			<a href="/signup" class="btn btn-primary">Add a new user</a> <a
+					href="/home" class="btn btn-primary">Home</a> 
+			</div> -->
+		</div>
+	</div>
+	
+	
+	
+<footer>
+		
+	 <div class="container">
+			<div class="container d-flex flex-wrap justify-content-center">
+                    <div th:fragment='paginationbar'>
+                        <div class="page-item text-center">
+                            <ul class='pagination pagination-centered'>
+                                <li th:class="${page.firstPage}?'disabled':''">
+                                    <span class="page-link" th:if='${page.firstPage}'>← First</span>
+                                    <a class="page-link" th:if='${not page.firstPage}' th:href='@{${page.url}(page=0,size=${page.size})}'>←
+                                        First</a>
+                                </li>
+                                <li th:class="${page.hasPreviousPage}? '' : 'disabled'">
+                                    <span class="page-link" th:if='${not page.hasPreviousPage}'>«</span>
+                                    <a class="page-link" th:if='${page.hasPreviousPage}'
+                                       th:href='@{${page.url}(page=${page.number-2},size=${page.size})}'
+                                       title='Go to previous page'>«</a>
+                                </li>
+                                <li th:each='item : ${page.items}' th:class="${item.current}? 'active' : ''">
+                                     <span th:if='${item.current}' th:text='${item.number}'>1</span>
+                                    <a class="page-link" th:if='${not item.current}'
+                                       th:href='@{${page.url}(page=${item.number-1},size=${page.size})}'><span
+                                            th:text='${item.number}'>1</span></a>
+                                </li>
+                                <li th:class="${page.hasNextPage}? '' : 'disabled'">
+                                    <span class="page-link" th:if='${not page.hasNextPage}'>»</span>
+                                    <a class="page-link" th:if='${page.hasNextPage}'
+                                       th:href='@{${page.url}(page=${page.number},size=${page.size})}'
+                                       title='Go to next page'>»</a>
+                                </li>
+                                <li th:class="${page.lastPage}? 'disabled' : ''">
+                                    <span class="page-link" th:if='${page.lastPage}'>Last →</span>
+                                    <a class="page-link" th:if='${not page.lastPage}'
+                                       th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}'>Last →</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> 
+			</div>
+
+</footer>
+  
+</body>
+</html>

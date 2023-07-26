@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:sf="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+<title>Spring Security Example</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<style>
+.verticalcenter {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 450px;
+}
+</style>
+
+
+</head>
+<body>
+
+	<div class="container">
+		<header
+			class="d-flex flex-wrap justify-content-md-between py-3 mb-4 border-bottom">
+			<a href="/"
+				class="d-flex align-items-center col-md-3 mb-2 mb-md-3 text-dark text-decoration-none">
+			</a>
+
+			<div class="col-md-3 text-end">
+ 				<a type="button" class="btn btn-outline-primary me-2"
+					th:href="@{/login}">Login</a> 
+
+			</div>
+		</header>
+	</div>
+
+
+	<div class="verticalcenter">
+
+		<form action="#" th:action="@{/signup}" th:object="${user}" method="post" id="addUserForm">
+		
+
+   				 <label class="form-label" for="name"></label>
+   				 <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" >Name is required.</span>
+			    
+			    <input type="text" class="form-control" name="name" placeholder="Name"  />  
+			    
+
+			      
+			
+				<label class="form-label" for="email"></label> 
+				<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email is required.</span> 
+			
+				<input type="text" placeholder="Email" name="email" class="form-control" />
+  			 	
+  			 	
+  			 	
+			 
+			  	<label class="form-label" for="password"></label>
+			  	<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password is required.</span>
+
+				<input type="text" placeholder="Password" name="password" class="form-control" /> 
+  				
+  				
+  				
+
+				<div class="d-grid pt-3 gap-2">
+
+				<input type="submit" value="Sign up" class="btn btn-primary">
+
+				<a type="submit" th:href="@{/login}" class="btn btn-primary">Back to login</a>
+
+			</div>
+
+		</form>
+		
+	</div>
+	
+	
+<!-- 	<form th:action="@{/signup}" th:object="${user}" method="post" class="form">
+    <div class="form-group">
+        <label for="fullName">Name</label>
+        <input class="form-control" type="text" th:field="*{name}" id="name" placeholder="Name">
+        <div class="alert alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input class="form-control" type="text" th:field="*{email}" id="email" placeholder="Email">
+        <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input class="form-control" type="text" th:field="*{password}" id="password" placeholder="password">
+        <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+    </div>
+    <input type="submit"  class="btn btn-primary" value="Add User">
+</form> -->
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
